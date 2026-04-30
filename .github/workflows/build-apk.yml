@@ -19,10 +19,13 @@ jobs:
         java-version: '17'
     
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.19.0'
-        channel: 'stable'
+      run: |
+        git clone https://github.com/flutter/flutter.git --depth 1 -b stable
+        echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+        flutter doctor -v
+    
+    - name: Clean previous builds
+      run: flutter clean
     
     - name: Get dependencies
       run: flutter pub get
